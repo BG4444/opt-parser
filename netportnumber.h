@@ -9,7 +9,10 @@ namespace OPTPARSER
 {
     class netPortNumber
     {
-        template<typename T> static auto check_range(const T& in)
+    public:
+        const uint16_t no;
+    private:
+        template<typename T> static decltype(no) check_range(const T& in)
         {
             if(in < 0)
             {
@@ -21,9 +24,7 @@ namespace OPTPARSER
             }
             return(in);
         }
-
     public:
-        const uint16_t no;
         netPortNumber(const std::string& portno);
         virtual ~netPortNumber();
     };
