@@ -12,7 +12,7 @@ namespace OPTPARSER
     public:
         const uint16_t no;
     private:
-        template<typename T> static decltype(no) check_range(T in)
+        template<typename T> static std::remove_const<decltype(no)>::type check_range(const T& in)
         {
             if(in < 0)
             {
