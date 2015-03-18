@@ -22,7 +22,7 @@ namespace OPTPARSER
             {
                 throw std::logic_error("port number is greather than" +std::to_string(std::numeric_limits<decltype(no)>::max()));
             }
-            return(in);
+            return(static_cast<decltype(no)>(in));
         }
     public:
         netPortNumber(const std::string& portno);
