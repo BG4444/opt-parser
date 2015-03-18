@@ -10,7 +10,7 @@ namespace OPTPARSER
     class netPortNumber
     {
     public:
-        const uint16_t no;
+        const int16_t no;
     private:
 
     public:
