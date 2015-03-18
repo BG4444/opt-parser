@@ -1,13 +1,15 @@
 #ifndef NETPORTNUMBER_H
 #define NETPORTNUMBER_H
 #include <string>
-#include <QtNetwork>
+#include <inttypes.h>
+#include <stdexcept>
+#include <limits>
 
 namespace OPTPARSER
 {
     class netPortNumber
     {
-        template<typename T> static quint16 check_range(const T& in)
+        template<typename T> static auto check_range(const T& in)
         {
             if(in < 0)
             {
@@ -15,13 +17,13 @@ namespace OPTPARSER
             }
             if(std::numeric_limits<T>::max()>std::numeric_limits<decltype(no)>::max() && in > std::numeric_limits<decltype(no)>::max())
             {
-                throw std::logic_error("port number excesses");
+                throw std::logic_error("port number is greather than" +std::to_string(std::numeric_limits<decltype(no)>::max()));
             }
             return(in);
         }
 
     public:
-        const quint16 no;
+        const uint16_t no;
         netPortNumber(const std::string& portno);
         virtual ~netPortNumber();
     };
