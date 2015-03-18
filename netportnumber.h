@@ -21,7 +21,7 @@ namespace OPTPARSER
             }
             if( (std::numeric_limits<T>::max() > std::numeric_limits<decltype(no)>::max()) && in > std::numeric_limits<decltype(no)>::max())
             {
-                throw std::logic_error("port number is greather than" +std::to_string(std::numeric_limits<decltype(no)>::max()));
+                throw std::logic_error("port number is greather than " +std::to_string(std::numeric_limits<decltype(no)>::max()));
             }
             return(in);
         }
