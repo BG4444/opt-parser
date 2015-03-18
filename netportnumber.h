@@ -12,7 +12,7 @@ namespace OPTPARSER
     public:
         const uint16_t no;
     private:
-        template<typename T> static decltype(no) check_range(const T& in)
+        template<typename T> static decltype(no) check_range(T in)
         {
             if(in < 0)
             {
@@ -22,7 +22,7 @@ namespace OPTPARSER
             {
                 throw std::logic_error("port number is greather than" +std::to_string(std::numeric_limits<decltype(no)>::max()));
             }
-            return(static_cast<decltype(no)>(in));
+            return(in);
         }
     public:
         netPortNumber(const std::string& portno);
