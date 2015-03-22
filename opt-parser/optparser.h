@@ -134,7 +134,7 @@ namespace OPTPARSER
                 }
                 default:
                 {
-                    return(do_convert_dec<OUT>(beg,en));
+                    return(string_conversions<OUT,false>::do_convert(beg,en));
                 }
             }
         }
