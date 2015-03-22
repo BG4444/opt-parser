@@ -12,8 +12,10 @@ match_results<const char*> OPTPARSER::g_walk_step(const string& regexString, opt
         std::cerr << "Regex will be \'"<<regexString<<"\'\n";
 #endif
         regex blowarg(regexString);
-        for(auto i=args.end();(i--)!=args.begin();)
+        auto i=args.end();
+        do
         {
+            --i;
 #ifndef NDEBUG
             std::cerr << "\tParsing an argument \'"<<*i<<'\'';
 #endif
@@ -33,6 +35,7 @@ match_results<const char*> OPTPARSER::g_walk_step(const string& regexString, opt
 #endif
             }
         }
+        while(i!=args.begin());
         return(match_results<const char*>());
 }
 
