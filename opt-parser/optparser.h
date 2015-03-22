@@ -10,30 +10,107 @@
 namespace OPTPARSER
 {
 
+    template<typename OUT> OUT do_convert_dec(std::string::const_iterator beg,const std::string::const_iterator& en)
+    {
+        static_assert( std::numeric_limits<OUT>::max()>=10,"not enough space in type");
+
+        OUT ret=0;
+        const OUT ten(10);
+        const OUT rmax(std::numeric_limits<OUT>::max()/ten);
+
+
+        for(;beg!=en;++beg)
+        {
+            if(*beg<'0' || *beg>'9')
+            {
+                throw std::invalid_argument("wrong symbol found");
+            }
+            const OUT digit=*beg-'0';
+            if( ret > rmax)
+            {
+                throw std::invalid_argument("overflow on shift");
+            }
+            ret*=ten;
+            if( ret > std::numeric_limits<OUT>::max()-digit)
+            {
+                throw std::invalid_argument("overflow on add");
+            }
+            ret+=digit;
+
+        }
+        return(ret);
+    }
+
+    template<typename OUT> OUT do_convert_hex(std::string::const_iterator beg,const std::string::const_iterator& en)
+    {
+        static_assert( std::numeric_limits<OUT>::max()>=16,"not enough space in type");
+
+        OUT ret=0;
+        const OUT sixteen(16);
+        const OUT rmax(std::numeric_limits<OUT>::max()/sixteen);
+
+
+        for(;beg!=en;++beg)
+        {
+            OUT digit;
+            if  (*beg>='0' && *beg<='9')
+            {
+                digit=*beg-'9';
+            }
+            else
+            {
+                if(*beg>='A' && *beg<='F')
+                {
+                    digit=*beg-'A';
+                }
+                else
+                {
+                    throw std::invalid_argument("wrong symbol found");
+                }
+            }
+
+            if( ret > rmax)
+            {
+                throw std::invalid_argument("overflow on shift");
+            }
+            ret*=sixteen;
+            if( ret > std::numeric_limits<OUT>::max()-digit)
+            {
+                throw std::invalid_argument("overflow on add");
+            }
+            ret+=digit;
+        }
+        return(ret);
+    }
+
     template<typename OUT,bool sign> struct string_conversions
     {
     };
 
     template<typename OUT> struct string_conversions<OUT,true>
-    {
-        static OUT do_convert(std::string::const_iterator beg,const std::string::const_iterator en)
+    {        
+        static OUT do_convert(std::string::const_iterator beg,const std::string::const_iterator& en)
         {
             static_assert( std::numeric_limits<OUT>::min()<=-9,"not enough space in type");
             static_assert( std::numeric_limits<OUT>::max()>=10, "not enough space in type");
             switch(*beg)
             {
                 case '-':
-                {
+                {                            
+                    if(++beg==en)
+                    {
+                        throw std::invalid_argument("this string is not a number");
+                    }
                     OUT ret=0;
                     const OUT ten(10);
                     const OUT rmin((std::numeric_limits<OUT>::min()/ten));
-                    for(++beg;beg!=en;++beg)
+                    for(;beg!=en;++beg)
                     {
                         if(*beg<'0' || *beg>'9')
                         {
                             throw std::invalid_argument("wrong symbol found");
                         }
-                        OUT digit=*beg-'0';
+                        const OUT digit=*beg-'0';
                         if( ret < rmin)
                         {
                             throw std::invalid_argument("overflow on shift");
@@ -49,55 +126,50 @@ namespace OPTPARSER
                     return(ret);
                 }
                 case '+':
-                {
-                    ++beg;
+                {                            
+                    if(++beg==en)
+                    {
+                        throw std::invalid_argument("this string is not a number");
+                    }
                 }
                 default:
                 {
-                    return(string_conversions<OUT,false>::do_convert(beg,en));
+                    return(do_convert_dec<OUT>(beg,en));
                 }
             }
         }
     };
 
     template<typename OUT> struct string_conversions<OUT,false>
-    {
-        static OUT do_convert(std::string::const_iterator beg,const std::string::const_iterator en)
+    {        
+        static OUT do_convert(std::string::const_iterator beg,const std::string::const_iterator& en)
         {
-            static_assert( std::numeric_limits<OUT>::max()>=10,"not enough space in type");
-
-            OUT ret=0;
-            const OUT ten(10);
-            const OUT rmax(std::numeric_limits<OUT>::max()/ten);
-
-
-            for(;beg!=en;++beg)
+            if(*beg=='0')
             {
-                if(*beg<'0' || *beg>'9')
+                if(++beg==en)
                 {
-                    throw std::invalid_argument("wrong symbol found");
+                    return 0;
                 }
-                OUT digit=*beg-'0';
-                if( ret > rmax)
+                if(*beg=='x')
                 {
-                    throw std::invalid_argument("overflow on shift");
+                    if(++beg==en)
+                    {
+                        throw std::invalid_argument("this string is not a number");
+                    }
+                    return(do_convert_hex<OUT>(beg,en));
                 }
-                ret*=ten;
-                if( ret > std::numeric_limits<OUT>::max()-digit)
-                {
-                    throw std::invalid_argument("overflow on add");
-                }
-                ret+=digit;
-
             }
-            return(ret);
+            return(do_convert_dec<OUT>(beg,en));
         }
     };
 
     template<typename OUT> static OUT string_to_number(const std::string& value)
     {
         static_assert( std::numeric_limits<OUT>::is_exact,"not exact type");
-
+        if(value.empty())
+        {
+            throw std::invalid_argument("empty string is given!");
+        }
         return(string_conversions<OUT,std::numeric_limits<OUT>::is_signed>::do_convert(value.cbegin(),value.cend()));
     }
 
