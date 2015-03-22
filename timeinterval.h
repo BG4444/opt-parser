@@ -10,6 +10,7 @@ namespace OPTPARSER
         static int check_interval(const int& in);
     public:
         TimeInterval(const std::string& in);
+        TimeInterval(const int &in);
         const int value;
     };
 }

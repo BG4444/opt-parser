@@ -18,3 +18,8 @@ TimeInterval::TimeInterval(const string &in):value(check_interval(string_to_numb
 {
 
 }
+
+TimeInterval::TimeInterval(const int &in):value(check_interval(in))
+{
+
+}
