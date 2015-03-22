@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core
+QT       += core network
 
 QT       -= gui
 
@@ -16,10 +16,14 @@ TEMPLATE = app
 QMAKE_CXXFLAGS+=-std=c++1y -pedantic
 QMAKE_CXX=gcc-4.9
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    km5device.cpp
 QMAKE_POST_LINK+=\
 pushd .;\
 cd $$_PRO_FILE_PWD_;\
 git add --all -v;\
 git commit -m \"Auto commit at `date`\";\
 popd\
+
+HEADERS += \
+    km5device.h
