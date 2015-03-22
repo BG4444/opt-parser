@@ -7,6 +7,16 @@
 #include <QHostAddress>
 #include "opt-parser/timeinterval.h"
 
+class deviceID
+{
+public:
+    const uint32_t id;
+    deviceID(const std::string& in):id(OPTPARSER::string_to_number<uint32_t>(in))
+    {
+
+    }
+};
+
 struct optlist
 {
     static constexpr auto options=tuple_cat(
@@ -16,6 +26,7 @@ struct optlist
                 );
 
 };
+
 
 class KM5DeviceOptions: public OPTPARSER::Options<optlist>
 {
