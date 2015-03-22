@@ -17,7 +17,11 @@ QMAKE_CXXFLAGS+=-std=c++1y -pedantic
 QMAKE_CXX=gcc-4.9
 
 SOURCES += main.cpp \
-    km5device.cpp
+    km5device.cpp \
+    opt-parser/netportnumber.cpp \
+    opt-parser/optparser.cpp \
+    opt-parser/timeinterval.cpp \
+    km5deviceoptions.cpp
 QMAKE_POST_LINK+=\
 pushd .;\
 cd $$_PRO_FILE_PWD_;\
@@ -26,4 +30,8 @@ git commit -m \"Auto commit at `date`\";\
 popd\
 
 HEADERS += \
-    km5device.h
+    km5device.h \
+    opt-parser/netportnumber.h \
+    opt-parser/optparser.h \
+    opt-parser/timeinterval.h \
+    km5deviceoptions.h
