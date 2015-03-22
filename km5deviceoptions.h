@@ -4,10 +4,14 @@
 #include "km5device.h"
 #include "opt-parser/optparser.h"
 #include "opt-parser/netportnumber.h"
+#include <QHostAddress>
 
 struct optlist
 {
-    static constexpr auto options=tuple_cat(OPTPARSER::makeO<OPTPARSER::netPortNumber>("port"));
+    static constexpr auto options=tuple_cat(
+                OPTPARSER::makeO<OPTPARSER::netPortNumber>("port"),
+                OPTPARSER::makeO<QHostAddress>("inaddr")
+                );
 
 };
 
