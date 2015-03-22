@@ -1,16 +1,18 @@
 #ifndef KM5DEVICEOPTIONS_H
 #define KM5DEVICEOPTIONS_H
 
-#include "km5device.h"
+
 #include "opt-parser/optparser.h"
 #include "opt-parser/netportnumber.h"
 #include <QHostAddress>
+#include "opt-parser/timeinterval.h"
 
 struct optlist
 {
     static constexpr auto options=tuple_cat(
                 OPTPARSER::makeO<OPTPARSER::netPortNumber>("port"),
-                OPTPARSER::makeO<QHostAddress>("inaddr")
+                OPTPARSER::makeO<QHostAddress>("host"),
+                OPTPARSER::makeO("connectionTimeout",[](){return OPTPARSER::TimeInterval(5000);})
                 );
 
 };
