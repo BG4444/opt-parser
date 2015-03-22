@@ -3,7 +3,7 @@ using namespace std;
 
 
 match_results<const char*> OPTPARSER::g_walk_step(const string& regexString, optlist &args)
-{
+{    
     if(args.empty())
     {
         return(match_results<const char*>());
