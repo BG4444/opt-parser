@@ -55,7 +55,7 @@ namespace OPTPARSER
             OUT digit;
             if  (*beg>='0' && *beg<='9')
             {
-                digit=*beg-'9';
+                digit=*beg-'0';
             }
             else
             {
