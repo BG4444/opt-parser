@@ -22,7 +22,7 @@ struct optlist
     static constexpr auto options=tuple_cat(
                 OPTPARSER::makeO<OPTPARSER::netPortNumber>("port"),
                 OPTPARSER::makeO<QHostAddress>("host"),
-                OPTPARSER::makeO("connectionTimeout",[](){return OPTPARSER::TimeInterval(5000);}),
+                OPTPARSER::makeO("connectionTimeout",[](){return OPTPARSER::TimeInterval(45000);}),
                 OPTPARSER::makeO<deviceID>("deviceID")
                 );
 
