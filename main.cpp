@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     KM5DeviceOptions opts(argc,argv);
-    cerr<<hex<<$(opts,"deviceID").id<<' '<<$(opts,"deviceID").id<<endl;
+    cerr<<hex<<$(opts,"deviceID").id<<' '<<dec<<$(opts,"deviceID").id<<endl;
     KM5Device dev(opts);
     return a.exec();
 }
