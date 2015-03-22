@@ -5,7 +5,7 @@ KM5Device::KM5Device(const KM5DeviceOptions &opts)
     tm.setSingleShot(true);
     assert(connect(&tm,SIGNAL(timeout()),this,SLOT(connectionTimedOut())));
     assert(connect(&sock,SIGNAL(connected()),this,SLOT(socketConnected())));
-    tm.start($(opts,"connectionTimeout").value);
+    tm.start($(opts,"connectionTimeOut").value);
     sock.connectToHost($(opts,"host"),$(opts,"port").no);
 }
 
