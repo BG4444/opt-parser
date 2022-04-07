@@ -403,6 +403,6 @@ namespace OPTPARSER
     };
 }
 
-#define $(optlist,name) ((optlist).extract<(optlist).find(name)>())
+#define $(optlist,name) ((optlist).extract<std::remove_reference<decltype(optlist)>::type::find(name)>())
 
 #endif // OPTPARSER_H
